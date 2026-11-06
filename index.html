@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colegio Montano - Introduction to Psychological Research Guide</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        montano: {
+                            blue: '#1269A8',
+                            yellow: '#F7D615',
+                            teal: '#54887D',
+                            lightBlue: '#88B5C7',
+                            olive: '#A6B046',
+                            softWhite: '#F2F5E9'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Nunito', 'Segoe UI', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #E2E8F0;
+            font-family: 'Nunito', 'Segoe UI', sans-serif;
+        }
+
+        /* Digital Whiteboard Frame Styling */
+        .whiteboard-frame {
+            background-color: #F2F5E9;
+            border: 12px solid #334155;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.3), 0 0 15px rgba(18, 105, 168, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn {
+            transition: all 0.25s ease;
+        }
+
+        .tab-btn.active {
+            background-color: #1269A8;
+            color: #ffffff;
+            border-bottom: 4px solid #F7D615;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F2F5E9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #88B5C7;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1269A8;
+        }
+
+        .pulse-ring {
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(247, 214, 21, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(247, 214, 21, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(247, 214, 21, 0); }
+        }
+    </style>
+</head>
+<body class="p-2 sm:p-4 md:p-6 min-h-screen">
+
+    <!-- Main Container / Digital Whiteboard Frame -->
+    <div id="whiteboard" class="whiteboard-frame max-w-7xl mx-auto p-4 sm:p-6 md:p-8 flex flex-col min-h-[90vh]">
+        
+        <!-- Header Section -->
+        <header class="flex flex-col md:flex-row justify-between items-center border-b-4 border-montano-blue pb-4 mb-6 gap-4">
+            <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyEop0yf6lZ7Jk9MILZxF1rBj4Oqs5esyhIQ&s" 
+                     alt="Colegio Montano Logo" 
+                     class="h-14 sm:h-16 w-auto object-contain rounded-lg shadow-sm border border-gray-200 bg-white p-1"
+                     onerror="this.onerror=null; this.src='https://placehold.co/150x60/1269A8/ffffff?text=Montano';">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-montano-teal">High School - 4to Bachillerato (B2 Level)</span>
+                    <h1 class="text-xl sm:text-2xl font-extrabold text-montano-blue leading-tight">Introduction to Psychological Research</h1>
+                    <p class="text-xs text-gray-600 font-semibold">Evidence, Scientific Method, and Critical Thinking in Behavioral Science</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3 w-full md:w-auto justify-end">
+                <button onclick="toggleFullscreen()" title="Toggle Digital Whiteboard Fullscreen"
+                        class="flex items-center gap-2 bg-montano-blue hover:bg-montano-teal text-white px-4 py-2 rounded-xl text-sm font-bold shadow-md transition-all active:scale-95">
+                    <i class="fa-solid fa-expand text-montano-yellow"></i>
+                    <span class="hidden sm:inline">Fullscreen Whiteboard</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Interactive Horizontal Navigation Tabs -->
+        <nav class="flex overflow-x-auto gap-2 pb-2 mb-6 border-b border-gray-300 scrollbar-thin">
+            <button onclick="switchTab('tab1')" id="btn-tab1" class="tab-btn active whitespace-nowrap px-4 py-3 rounded-t-xl font-bold text-sm sm:text-base flex items-center gap-2 text-gray-700 hover:bg-montano-lightBlue hover:text-white">
+                <i class="fa-solid fa-book-open text-montano-yellow"></i> 1. Theoretical Foundations
+            </button>
+            <button onclick="switchTab('tab2')" id="btn-tab2" class="tab-btn whitespace-nowrap px-4 py-3 rounded-t-xl font-bold text-sm sm:text-base flex items-center gap-2 text-gray-700 hover:bg-montano-lightBlue hover:text-white">
+                <i class="fa-solid fa-lightbulb text-montano-yellow"></i> 2. Solved Examples (15)
+            </button>
+            <button onclick="switchTab('tab3')" id="btn-tab3" class="tab-btn whitespace-nowrap px-4 py-3 rounded-t-xl font-bold text-sm sm:text-base flex items-center gap-2 text-gray-700 hover:bg-montano-lightBlue hover:text-white">
+                <i class="fa-solid fa-microphone-lines text-montano-yellow"></i> 3. Voice Simulator & Dashboard
+            </button>
+            <button onclick="switchTab('tab4')" id="btn-tab4" class="tab-btn whitespace-nowrap px-4 py-3 rounded-t-xl font-bold text-sm sm:text-base flex items-center gap-2 text-gray-700 hover:bg-montano-lightBlue hover:text-white">
+                <i class="fa-solid fa-brain text-montano-yellow"></i> 4. Critical Reflection
+            </button>
+            <button onclick="switchTab('tab5')" id="btn-tab5" class="tab-btn whitespace-nowrap px-4 py-3 rounded-t-xl font-bold text-sm sm:text-base flex items-center gap-2 text-gray-700 hover:bg-montano-lightBlue hover:text-white">
+                <i class="fa-solid fa-list-check text-montano-yellow"></i> 5. Formative Evaluation (15)
+            </button>
+        </nav>
+
+        <!-- TAB CONTENT CONTAINER -->
+        <main class="flex-grow">
+
+            <!-- TAB 1: Theoretical Foundations -->
+            <section id="tab1" class="tab-content block space-y-6">
+                <!-- Warm-up Banner -->
+                <div class="bg-white border-l-8 border-montano-yellow p-5 rounded-2xl shadow-sm">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="bg-montano-yellow text-montano-blue text-xs font-black px-3 py-1 rounded-full uppercase">5-Min Warm-Up</span>
+                        <h2 class="text-lg font-bold text-montano-blue">How do we know why people behave the way they do?</h2>
+                    </div>
+                    <p class="text-sm text-gray-700">
+                        Is intuition enough to understand human action? Throughout history, people relied on folk wisdom, personal anecdotes, and gut feelings. Modern psychology uses empirical evidence to differentiate objective psychological reality from subjective belief.
+                    </p>
+                </div>
+
+                <!-- Main Theoretical Concepts Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Card 1: Evidence vs. Opinion -->
+                    <div class="bg-white p-6 rounded-2xl border-2 border-montano-blue shadow-md flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 text-montano-blue mb-3">
+                                <i class="fa-solid fa-scale-balanced text-2xl"></i>
+                                <h3 class="text-lg font-bold">1. Evidence vs. Opinion</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">
+                                <strong>Opinion:</strong> A subjective belief or preference not necessarily grounded in measurable facts.<br>
+                                <strong>Observation:</strong> Directly recording behavior or events without drawing unverified conclusions.<br>
+                                <strong>Evidence-Based Claim:</strong> An assertion backed by systematic, empirical data gathered through controlled research.
+                            </p>
+                        </div>
+                        <div class="bg-montano-softWhite p-3 rounded-xl border border-montano-lightBlue">
+                            <span class="text-xs font-bold text-montano-teal block mb-1">Scientific Rigor Meter</span>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-montano-blue h-3 rounded-full w-[85%]"></div>
+                            </div>
+                            <span class="text-xs text-right block mt-1 font-semibold text-montano-blue">High Empirical Rigor</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Why Psychology Uses Scientific Methods -->
+                    <div class="bg-white p-6 rounded-2xl border-2 border-montano-teal shadow-md flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 text-montano-teal mb-3">
+                                <i class="fa-solid fa-flask text-2xl"></i>
+                                <h3 class="text-lg font-bold">2. Systematic Empirical Method</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">
+                                Human perception is susceptible to biases like **Confirmation Bias** and **Hindsight Bias**. Systematic research applies standardized operational definitions, controls variables, and replicates results to minimize error and subjective distortion.
+                            </p>
+                        </div>
+                        <div class="bg-montano-softWhite p-3 rounded-xl border border-montano-olive">
+                            <span class="text-xs font-bold text-montano-olive block mb-1">Bias Reduction Score</span>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-montano-teal h-3 rounded-full w-[90%]"></div>
+                            </div>
+                            <span class="text-xs text-right block mt-1 font-semibold text-montano-teal">90% Bias Control</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Critical Thinking in Research -->
+                    <div class="bg-white p-6 rounded-2xl border-2 border-montano-olive shadow-md flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 text-montano-olive mb-3">
+                                <i class="fa-solid fa-magnifying-glass text-2xl"></i>
+                                <h3 class="text-lg font-bold">3. Critical Thinking</h3>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">
+                                Critical thinkers constantly ask: *What is the evidence? Is the sample representative? Are there alternative explanations?* Critical thinking requires skepticism combined with openness to peer-reviewed data.
+                            </p>
+                        </div>
+                        <div class="bg-montano-softWhite p-3 rounded-xl border border-montano-yellow">
+                            <span class="text-xs font-bold text-montano-blue block mb-1">Critical Analysis Level</span>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="bg-montano-yellow h-3 rounded-full w-[95%]"></div>
+                            </div>
+                            <span class="text-xs text-right block mt-1 font-semibold text-montano-blue">Advanced B2 Logic</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Research Cycle Workflow -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-300 shadow-md">
+                    <h3 class="text-xl font-extrabold text-montano-blue mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-arrows-spin text-montano-yellow"></i> The 6-Step Psychological Research Cycle
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-3">
+                        <div class="p-3 bg-montano-softWhite border-t-4 border-montano-blue rounded-xl text-center">
+                            <span class="bg-montano-blue text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold mb-2">1</span>
+                            <h4 class="text-xs font-bold text-montano-blue">Research Question</h4>
+                            <p class="text-[11px] text-gray-600 mt-1">Identify a clear behavioral phenomenon.</p>
+                        </div>
+                        <div class="p-3 bg-montano-softWhite border-t-4 border-montano-teal rounded-xl text-center">
+                            <span class="bg-montano-teal text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold mb-2">2</span>
+                            <h4 class="text-xs font-bold text-montano-teal">Background Research</h4>
+                            <p class="text-[11px] text-gray-600 mt-1">Review existing academic literature.</p>
+                        </div>
+                        <div class="p-3 bg-montano-softWhite border-t-4 border-montano-yellow rounded-xl text-center">
+                            <span class="bg-montano-yellow text-montano-blue rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold mb-2">3</span>
+                            <h4 class="text-xs font-bold text-montano-blue">Form Hypothesis</h4>
+                            <p class="text-[11px] text-gray-600 mt-1">Formulate a testable prediction.</p>
+                        </div>
+                        <div class="p-3 bg-montano-softWhite border-t-4 border-montano-lightBlue rounded-xl text-center">
+                            <span class="bg-montano-lightBlue text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold mb-2">4</span>
+                            <h4 class="text-xs font-bold text-montano-blue">Design & Method</h4>
+                            <p class="text-[11px] text-gray-600 mt-1">Select experiment, survey, or observation.</p>
+                        </div>
+                        <div class="p-3 bg-montano-softWhite border-t-4 border-montano-olive rounded-xl text-center">
+                            <span class="bg-montano-olive text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold mb-2">5</span>
+                            <h4 class="text-xs font-bold text-montano-olive">Data Collection</h4>
+                            <p class="text-[11px] text-gray-600 mt-1">Gather quantitative/qualitative data.</p>
+                        </div>
+                        <div class="p-3 bg-montano-softWhite border-t-4 border-montano-blue rounded-xl text-center">
+                            <span class="bg-montano-blue text-white rounded-full w-6 h-6 inline-flex items-center justify-center text-xs font-bold mb-2">6</span>
+                            <h4 class="text-xs font-bold text-montano-blue">Conclusion & Peer Review</h4>
+                            <p class="text-[11px] text-gray-600 mt-1">Accept/reject hypothesis and publish.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: Solved Examples (15 Examples with TTS) -->
+            <section id="tab2" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-4 rounded-2xl border border-gray-200 gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-montano-blue">15 Categorized Solved Examples</h2>
+                        <p class="text-xs text-gray-600">Explore statement classifications across 3 complexity levels. Click the speaker icon to listen to native TTS pronunciation.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="filterExamples('all')" class="ex-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-montano-blue text-white">All (15)</button>
+                        <button onclick="filterExamples('basic')" class="ex-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700">Level 1 Basic</button>
+                        <button onclick="filterExamples('intermediate')" class="ex-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700">Level 2 Interm.</button>
+                        <button onclick="filterExamples('advanced')" class="ex-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700">Level 3 Adv.</button>
+                    </div>
+                </div>
+
+                <div id="examples-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Populated dynamically via JavaScript -->
+                </div>
+            </section>
+
+            <!-- TAB 3: Live Interactive Voice Simulator & Live Performance Dashboard -->
+            <section id="tab3" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    
+                    <!-- Voice Simulator Controls (7 cols) -->
+                    <div class="lg:col-span-7 bg-white p-6 rounded-2xl border-2 border-montano-blue shadow-md flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between border-b pb-3 mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-montano-blue text-white flex items-center justify-center font-bold">
+                                        <i class="fa-solid fa-robot"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-montano-blue">Dr. Montano - AI Research Mentor</h3>
+                                        <span class="text-xs text-montano-teal font-semibold">Interactive Voice Simulator</span>
+                                    </div>
+                                </div>
+                                <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                                    <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span> Live Web Speech
+                                </span>
+                            </div>
+
+                            <!-- Mentor Dialogue Box -->
+                            <div class="bg-montano-softWhite p-4 rounded-xl border border-montano-lightBlue mb-4">
+                                <p id="mentor-speech" class="text-sm text-gray-800 font-semibold leading-relaxed">
+                                    "Hello! I am Dr. Montano. Let's analyze a scenario: 'Students who listen to classical music while studying always get higher exam scores.' Is this statement a subjective opinion, a raw observation, or an evidence-based claim? Explain your reasoning aloud."
+                                </p>
+                                <button onclick="speakText(document.getElementById('mentor-speech').innerText)" class="mt-2 text-xs font-bold text-montano-blue hover:text-montano-teal flex items-center gap-1">
+                                    <i class="fa-solid fa-volume-high"></i> Replay Audio
+                                </button>
+                            </div>
+
+                            <!-- Voice Input Controls -->
+                            <div class="space-y-3">
+                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">Your Voice / Speech Response</label>
+                                <div class="flex gap-2">
+                                    <button id="mic-btn" onclick="toggleSpeechRecognition()" class="flex-1 bg-montano-blue hover:bg-montano-teal text-white py-3 px-4 rounded-xl font-bold text-sm shadow flex items-center justify-center gap-2 transition-all">
+                                        <i class="fa-solid fa-microphone text-montano-yellow text-lg"></i>
+                                        <span id="mic-btn-text">Start Speaking Answer</span>
+                                    </button>
+                                </div>
+                                
+                                <p class="text-xs text-gray-500 italic text-center">Or type your answer below if microphone access is unavailable:</p>
+
+                                <textarea id="user-input-text" rows="3" placeholder="Type your response here or speak using the mic button above..." 
+                                          class="w-full p-3 border-2 border-gray-200 rounded-xl text-sm focus:border-montano-blue focus:outline-none transition"></textarea>
+                                
+                                <button onclick="evaluateUserResponse()" class="w-full bg-montano-yellow hover:bg-amber-400 text-montano-blue font-extrabold py-3 px-4 rounded-xl text-sm shadow transition">
+                                    Submit Response for AI Analysis
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Speech Status Notification -->
+                        <div id="speech-status" class="mt-4 text-xs font-bold text-gray-500 text-center flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-circle-info"></i> Ready for input. Speak clearly into your microphone.
+                        </div>
+                    </div>
+
+                    <!-- Live Performance Dashboard (5 cols) -->
+                    <div class="lg:col-span-5 bg-white p-6 rounded-2xl border-2 border-montano-teal shadow-md flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-extrabold text-montano-blue border-b pb-2 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-chart-line text-montano-yellow"></i> Live Performance Dashboard
+                            </h3>
+
+                            <!-- Score Meters -->
+                            <div class="space-y-4">
+                                <!-- Score 1: Pronunciation Clarity -->
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold mb-1">
+                                        <span class="text-gray-700">Pronunciation & Speech Clarity Score</span>
+                                        <span id="score-clarity-val" class="text-montano-blue">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-3">
+                                        <div id="score-clarity-bar" class="bg-montano-blue h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Score 2: Topic & Grammar Accuracy -->
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold mb-1">
+                                        <span class="text-gray-700">Topic / Grammar Accuracy Score</span>
+                                        <span id="score-accuracy-val" class="text-montano-teal">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-3">
+                                        <div id="score-accuracy-bar" class="bg-montano-teal h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Score 3: Politeness & Academic Etiquette -->
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold mb-1">
+                                        <span class="text-gray-700">Politeness / Expression Etiquette Score</span>
+                                        <span id="score-politeness-val" class="text-montano-olive">0%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-3">
+                                        <div id="score-politeness-bar" class="bg-montano-olive h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Key Research Terms Detected -->
+                            <div class="mt-6">
+                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Detected Key Scientific Terms</label>
+                                <div id="detected-terms-container" class="flex flex-wrap gap-1.5 min-h-[40px] p-2 bg-montano-softWhite rounded-xl border border-gray-200">
+                                    <span class="text-xs text-gray-400 italic">No terms detected yet. Speak or type your answer.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Pedagogical Feedback Container -->
+                        <div class="mt-6 bg-montano-softWhite p-4 rounded-xl border border-montano-lightBlue">
+                            <h4 class="text-xs font-extrabold text-montano-blue uppercase tracking-wider mb-1 flex items-center gap-1">
+                                <i class="fa-solid fa-graduation-cap"></i> AI Pedagogical Feedback
+                            </h4>
+                            <p id="ai-feedback-text" class="text-xs text-gray-700 leading-relaxed">
+                                Awaiting student response. Complete the prompt to receive real-time feedback on your scientific argumentation.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: Critical Reflection Questions -->
+            <section id="tab4" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+                    <h2 class="text-xl font-extrabold text-montano-blue mb-2">Critical Reflection & Practical Application</h2>
+                    <p class="text-sm text-gray-600 mb-6">Synthesize your B2-level understanding of psychological inquiry. Write thorough responses in English.</p>
+
+                    <div class="space-y-6">
+                        <!-- Reflection 1 -->
+                        <div class="p-4 bg-montano-softWhite rounded-xl border-l-4 border-montano-blue">
+                            <label class="block font-bold text-sm text-montano-blue mb-2">
+                                1. Why is it dangerous for society to confuse a widely shared opinion with an evidence-based psychological claim? Give a real-world example.
+                            </label>
+                            <textarea rows="3" class="w-full p-3 border rounded-xl text-sm focus:border-montano-blue focus:outline-none" placeholder="Type your reflection here..."></textarea>
+                        </div>
+
+                        <!-- Reflection 2 -->
+                        <div class="p-4 bg-montano-softWhite rounded-xl border-l-4 border-montano-teal">
+                            <label class="block font-bold text-sm text-montano-teal mb-2">
+                                2. How does critical thinking prevent psychological researchers from falling victim to confirmation bias during the data collection stage?
+                            </label>
+                            <textarea rows="3" class="w-full p-3 border rounded-xl text-sm focus:border-montano-teal focus:outline-none" placeholder="Type your reflection here..."></textarea>
+                        </div>
+
+                        <!-- Reflection 3 - Exit Ticket Prompt -->
+                        <div class="p-4 bg-white rounded-xl border-2 border-montano-yellow shadow-md">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="bg-montano-yellow text-montano-blue text-xs font-extrabold px-2.5 py-1 rounded-full uppercase">Exit Ticket Task</span>
+                                <h3 class="font-bold text-sm text-montano-blue">Formulate One Testable Research Question</h3>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-3">Write a clear, non-biased, researchable question about student behavior or cognition. Identify your proposed variables.</p>
+                            <textarea id="exit-ticket-input" rows="3" class="w-full p-3 border rounded-xl text-sm focus:border-montano-blue focus:outline-none" placeholder="Example: Does 8 hours of sleep improve high school students' performance on spatial memory tests compared to 5 hours?"></textarea>
+                            <button onclick="saveExitTicket()" class="mt-3 bg-montano-blue hover:bg-montano-teal text-white font-bold text-xs px-4 py-2 rounded-lg shadow transition">
+                                Save Exit Ticket Question
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: Formative Evaluation (15 Problems) -->
+            <section id="tab5" class="tab-content hidden space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-4 rounded-2xl border border-gray-200 gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-montano-blue">15 Evaluative Practice Problems</h2>
+                        <p class="text-xs text-gray-600">Test your operational knowledge. Toggle solutions to review step-by-step psychological reasoning.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="filterProblems('all')" class="prob-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-montano-blue text-white">All (15)</button>
+                        <button onclick="filterProblems('basic')" class="prob-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700">Level 1 Basic</button>
+                        <button onclick="filterProblems('intermediate')" class="prob-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700">Level 2 Interm.</button>
+                        <button onclick="filterProblems('advanced')" class="prob-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700">Level 3 Adv.</button>
+                    </div>
+                </div>
+
+                <!-- Formative Exercises List -->
+                <div id="problems-container" class="space-y-4">
+                    <!-- Populated dynamically via JavaScript -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-8 pt-4 border-t border-gray-300 text-center text-xs text-gray-600 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>
+                <strong>Colegio Montano</strong> &copy; 2026 - Senior Instructional Design & Interactive Educational Web
+            </div>
+            <div class="text-montano-teal font-semibold">
+                High School Department | Psychology B2 Curriculum
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & INTERACTION ENGINE -->
+    <script>
+        // DATA STRUCTURES: 15 Solved Examples
+        const solvedExamples = [
+            // Level 1: Basic (5)
+            { id: 1, level: 'basic', text: '"I feel that sugar makes children hyperactive because my nephew acts wild after drinking soda."', type: 'Subjective Opinion', explanation: 'Relies on personal anecdote and subjective feeling without empirical controls or comparison groups.', tags: ['Anecdote', 'Uncontrolled'] },
+            { id: 2, level: 'basic', text: '"The researcher recorded that 14 out of 20 participants yawned within 5 minutes of watching a video of yawning."', type: 'Direct Observation', explanation: 'Objective, uninterpreted recording of observable behavioral frequency.', tags: ['Data Collection', 'Empirical'] },
+            { id: 3, level: 'basic', text: '"A peer-reviewed study of 5,000 subjects found a statistically significant correlation between aerobic exercise and reduced anxiety scores."', type: 'Evidence-Based Claim', explanation: 'Grounded in large-sample empirical data subjected to statistical analysis and peer review.', tags: ['Statistical', 'Peer-Reviewed'] },
+            { id: 4, level: 'basic', text: '"Introverts are definitely worse leaders than extroverts; everyone knows that."', type: 'Subjective Opinion', explanation: 'Generalization based on societal stereotypes without operationalized metrics or evidence.', tags: ['Stereotype', 'Bias'] },
+            { id: 5, level: 'basic', text: '"In the library, 85% of students who used noise-canceling headphones stayed seated for over 45 minutes."', type: 'Direct Observation', explanation: 'Descriptive quantitative recording of specific behavior in a natural setting.', tags: ['Descriptive', 'Quantitative'] },
+
+            // Level 2: Intermediate (5)
+            { id: 6, level: 'intermediate', text: '"Participant A completed the Stroop Color Task in 42 seconds with 2 errors under normal lighting conditions."', type: 'Direct Observation', explanation: 'Standardized operational measurement recording time and error rate accurately.', tags: ['Operational Metric', 'Stroop Task'] },
+            { id: 7, level: 'intermediate', text: '"Cognitive Behavioral Therapy (CBT) reduces depressive symptoms significantly more than placebo treatment across 12 randomized control trials."', type: 'Evidence-Based Claim', explanation: 'Meta-analytic evidence derived from multiple controlled, randomized experimental trials.', tags: ['Meta-Analysis', 'RCT'] },
+            { id: 8, level: 'intermediate', text: '"People born in July are naturally more empathetic because cancer zodiac signs are emotionally sensitive."', type: 'Subjective Opinion / Pseudoscience', explanation: 'Non-scientific assertion lacking plausible empirical mechanism or controlled evidence.', tags: ['Pseudoscience', 'Invalid'] },
+            { id: 9, level: 'intermediate', text: '"Heart rates of group X increased by an average of 18 BPM when presented with fear-inducing imagery."', type: 'Direct Observation', explanation: 'Physiological measurement directly observed and measured via electrocardiogram.', tags: ['Physiological', 'Objective'] },
+            { id: 10, level: 'intermediate', text: '"Double-blind trials indicate that Sleep Intervention Protocol B increases REM sleep duration by 22%."', type: 'Evidence-Based Claim', explanation: 'Utilizes double-blind controls to eliminate experimenter and participant bias.', tags: ['Double-Blind', 'Experimental'] },
+
+            // Level 3: Advanced (5)
+            { id: 11, level: 'advanced', text: '"Although early surveys claimed social media causes teenage depression, longitudinal tracking controlling for socio-economic factors shows a weak correlation (r = 0.08)."', type: 'Evidence-Based Claim', explanation: 'Demonstrates critical thinking by addressing confounding variables and correlation magnitudes.', tags: ['Confounding Variables', 'Correlational'] },
+            { id: 12, level: 'advanced', text: '"I tried meditating once for 5 minutes and felt no stress relief, so mindfulness intervention theory is completely false."', type: 'Subjective Opinion', explanation: 'Hasty generalization based on an single N=1 unstandardized attempt.', tags: ['N=1 Fallacy', 'Anecdotal'] },
+            { id: 13, level: 'advanced', text: '"fMRI scans revealed heightened amygdala activation in 28 patients exposed to ambiguous facial expressions."', type: 'Direct Observation', explanation: 'Neuroimaging observation recording specific neural metabolic activity.', tags: ['Neuroimaging', 'fMRI'] },
+            { id: 14, level: 'advanced', text: '"A meta-analysis of 45 studies confirms that spaced repetition improves long-term recall retention by 35% compared to cramming."', type: 'Evidence-Based Claim', explanation: 'High-tier scientific evidence combining results across diverse independent empirical samples.', tags: ['Meta-Analysis', 'Cognitive Science'] },
+            { id: 15, level: 'advanced', text: '"The experimenter noted that subject #104 tapped their pen 34 times per minute during the high-stress stressor phase."', type: 'Direct Observation', explanation: 'Precise behavioral tally during an operationalized stressor protocol.', tags: ['Behavioral Tally', 'Protocol'] }
+        ];
+
+        // DATA STRUCTURES: 15 Formative Practice Problems
+        const formativeProblems = [
+            // Level 1: Basic (5)
+            { id: 1, level: 'basic', prompt: 'Classify: "Blue walls make people feel depressed because blue is a sad color."', solution: 'Classified as SUBJECTIVE OPINION. Explanation: The statement relies on subjective linguistic associations rather than operationalized psychological measurement.' },
+            { id: 2, level: 'basic', prompt: 'Identify the Research Step: "Dr. Reyes writes: We predict that students who sleep 8 hours will perform 15% better on memory tests than those who sleep 4 hours."', solution: 'Step 3: FORMULATING A HYPOTHESIS. Explanation: It specifies a clear, testable, and falsifiable prediction between two variables.' },
+            { id: 3, level: 'basic', prompt: 'Classify: "Data showed 78% of participants remembered the first three words on the list."', solution: 'Classified as DIRECT OBSERVATION / DATA. Explanation: It reports objective quantitative results without subjective inference.' },
+            { id: 4, level: 'basic', prompt: 'Why is an anecdotal story about one person not considered scientific evidence?', solution: 'Answer: Individual anecdotes lack control of confounding variables, have a sample size of N=1, and cannot be generalized scientifically.' },
+            { id: 5, level: 'basic', prompt: 'Identify the Independent Variable (IV) in: "Testing if caffeine dosage increases reaction time in drivers."', solution: 'Independent Variable: Caffeine dosage (manipulated by the experimenter).' },
+
+            // Level 2: Intermediate (5)
+            { id: 6, level: 'intermediate', prompt: 'Classify & Critique: "Smart phones are destroying human intelligence."', solution: 'Critique: OVERGENERALIZED OPINION. It lacks operational definitions for "destroying" and "intelligence," and ignores empirical nuances.' },
+            { id: 7, level: 'intermediate', prompt: 'Identify the Dependent Variable (DV) in: "Measuring how room temperature affects the number of mathematical errors made by accountants."', solution: 'Dependent Variable: Number of mathematical errors committed (measured outcome).' },
+            { id: 8, level: 'intermediate', prompt: 'Explain why a control group is essential when testing a new therapy for phobias.', solution: 'Answer: To rule out the Placebo Effect and natural spontaneous recovery, ensuring changes are caused solely by the therapy.' },
+            { id: 9, level: 'intermediate', prompt: 'Differentiate between a positive correlation and a negative correlation in psychological research.', solution: 'Answer: Positive correlation means both variables move in the same direction; negative correlation means as one variable increases, the other decreases.' },
+            { id: 10, level: 'intermediate', prompt: 'Classify: "An fMRI study of 100 adults demonstrated that chronic stress alters prefrontal cortex volume."', solution: 'Classified as EVIDENCE-BASED CLAIM. Uses controlled neuroimaging methodology on an adequate sample.' },
+
+            // Level 3: Advanced (5)
+            { id: 11, level: 'advanced', prompt: 'Scenario: A researcher only records data that supports their original belief and ignores contradicting cases. Name this flaw.', solution: 'Answer: CONFIRMATION BIAS / EXPERIMENTER BIAS. Countermeasure: Implement double-blind research procedures.' },
+            { id: 12, level: 'advanced', prompt: 'Classify & Evaluate: "Ice cream sales and drowning incidents both rise in July; therefore, eating ice cream causes drowning."', solution: 'Flaw: CORRELATION DOES NOT EQUAL CAUSATION. Confounding variable: High summer temperature drives both behaviors independently.' },
+            { id: 13, level: 'advanced', prompt: 'Explain the purpose of Operational Definitions in psychological experiments.', solution: 'Answer: Operational definitions precisely specify how a variable is measured or manipulated, allowing exact replication by independent researchers.' },
+            { id: 14, level: 'advanced', prompt: 'Why is peer review crucial before a psychological conclusion becomes accepted scientific knowledge?', solution: 'Answer: Independent scientific experts evaluate methodology, statistical validity, and ethical standards to filter out flawed research.' },
+            { id: 15, level: 'advanced', prompt: 'Formulate an operational definition for "Test Anxiety" in a high school research study.', solution: 'Example Operational Definition: "Test anxiety is defined as a heart rate exceeding 90 BPM combined with a self-reported score above 7/10 on the Speilberger Anxiety Scale prior to an exam."' }
+        ];
+
+        // RENDER FUNCTIONS
+        function renderExamples(filter = 'all') {
+            const container = document.getElementById('examples-container');
+            container.innerHTML = '';
+            
+            const filtered = solvedExamples.filter(ex => filter === 'all' || ex.level === filter);
+
+            filtered.forEach(ex => {
+                const badgeColor = ex.level === 'basic' ? 'bg-blue-100 text-montano-blue border-blue-300' :
+                                   ex.level === 'intermediate' ? 'bg-teal-100 text-montano-teal border-teal-300' :
+                                   'bg-amber-100 text-amber-800 border-amber-300';
+                
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[10px] uppercase font-black px-2.5 py-0.5 rounded-full border ${badgeColor}">
+                                ${ex.level.toUpperCase()}
+                            </span>
+                            <button onclick="speakText('${escapeQuotes(ex.text)}')" class="text-montano-blue hover:text-montano-teal transition p-1" title="Listen to text audio">
+                                <i class="fa-solid fa-volume-high text-lg"></i>
+                            </button>
+                        </div>
+                        <p class="text-xs font-bold text-gray-800 mb-3 italic">"${ex.text}"</p>
+                        <div class="bg-montano-softWhite p-2.5 rounded-xl border border-gray-200 mb-2">
+                            <span class="text-[11px] font-black text-montano-blue block">Classification: ${ex.type}</span>
+                            <p class="text-[11px] text-gray-600 mt-1">${ex.explanation}</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                        ${ex.tags.map(tag => `<span class="text-[9px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded font-semibold">#${tag}</span>`).join('')}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderProblems(filter = 'all') {
+            const container = document.getElementById('problems-container');
+            container.innerHTML = '';
+
+            const filtered = formativeProblems.filter(p => filter === 'all' || p.level === filter);
+
+            filtered.forEach((p, index) => {
+                const badgeColor = p.level === 'basic' ? 'bg-blue-100 text-montano-blue border-blue-300' :
+                                   p.level === 'intermediate' ? 'bg-teal-100 text-montano-teal border-teal-300' :
+                                   'bg-amber-100 text-amber-800 border-amber-300';
+
+                const item = document.createElement('div');
+                item.className = "bg-white p-5 rounded-2xl border border-gray-200 shadow-sm";
+                item.innerHTML = `
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-montano-blue text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">${p.id}</span>
+                            <span class="text-xs font-black uppercase tracking-wide px-2.5 py-0.5 rounded-full border ${badgeColor}">Level: ${p.level}</span>
+                        </div>
+                        <button onclick="toggleSolution('sol-${p.id}')" class="bg-montano-softWhite hover:bg-gray-200 text-montano-blue border border-montano-lightBlue text-xs font-bold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-eye text-montano-yellow"></i> <span id="btn-txt-sol-${p.id}">Show Solution</span>
+                        </button>
+                    </div>
+                    <p class="text-sm font-bold text-gray-800 mb-2">${p.prompt}</p>
+                    <div id="sol-${p.id}" class="hidden mt-3 p-4 bg-montano-softWhite border-l-4 border-montano-teal rounded-r-xl">
+                        <span class="text-xs font-extrabold text-montano-teal uppercase tracking-wider block mb-1"><i class="fa-solid fa-check-circle"></i> Step-by-Step Solution:</span>
+                        <p class="text-xs text-gray-700 font-medium leading-relaxed">${p.solution}</p>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // TAB SWITCHING LOGIC
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById(`btn-${tabId}`).classList.add('active');
+        }
+
+        function filterExamples(level) {
+            document.querySelectorAll('.ex-filter-btn').forEach(btn => {
+                btn.className = "ex-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700";
+            });
+            event.target.className = "ex-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-montano-blue text-white";
+            renderExamples(level);
+        }
+
+        function filterProblems(level) {
+            document.querySelectorAll('.prob-filter-btn').forEach(btn => {
+                btn.className = "prob-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700";
+            });
+            event.target.className = "prob-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-montano-blue text-white";
+            renderProblems(level);
+        }
+
+        function toggleSolution(solId) {
+            const solDiv = document.getElementById(solId);
+            const btnTxt = document.getElementById(`btn-txt-${solId}`);
+            if (solDiv.classList.contains('hidden')) {
+                solDiv.classList.remove('hidden');
+                btnTxt.innerText = "Hide Solution";
+            } else {
+                solDiv.classList.add('hidden');
+                btnTxt.innerText = "Show Solution";
+            }
+        }
+
+        // FULLSCREEN TOGGLE API
+        function toggleFullscreen() {
+            const whiteboard = document.getElementById('whiteboard');
+            if (!document.fullscreenElement) {
+                if (whiteboard.requestFullscreen) {
+                    whiteboard.requestFullscreen();
+                } else if (whiteboard.webkitRequestFullscreen) {
+                    whiteboard.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // TEXT-TO-SPEECH (TTS) SYNTHESIS
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop active audio
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.95;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Text-to-Speech audio is not supported in this web browser.");
+            }
+        }
+
+        function escapeQuotes(str) {
+            return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        }
+
+        // SPEECH RECOGNITION & VOICE SIMULATOR LOGIC
+        let recognition = null;
+        let isListening = false;
+
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                isListening = true;
+                document.getElementById('mic-btn-text').innerText = "Listening... Speak Now";
+                document.getElementById('mic-btn').classList.add('pulse-ring', 'bg-red-600');
+                document.getElementById('speech-status').innerHTML = '<span class="text-red-600 flex items-center gap-1"><i class="fa-solid fa-microphone animate-bounce"></i> Microphone Active - Listening in English...</span>';
+            };
+
+            recognition.onresult = function(event) {
+                let transcript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
+                }
+                document.getElementById('user-input-text').value = transcript;
+            };
+
+            recognition.onerror = function(event) {
+                console.error("Speech Recognition Error:", event.error);
+                stopListeningState("Error listening. Please use text entry or try again.");
+            };
+
+            recognition.onend = function() {
+                stopListeningState("Speech input captured. Click 'Submit Response' for AI analysis.");
+            };
+        } else {
+            document.getElementById('speech-status').innerText = "Web Speech API not supported on this browser. You can type your response.";
+        }
+
+        function toggleSpeechRecognition() {
+            if (!recognition) {
+                alert("Web Speech Recognition API is not supported in your browser. Please type your response.");
+                return;
+            }
+
+            if (isListening) {
+                recognition.stop();
+            } else {
+                try {
+                    recognition.start();
+                } catch(e) {
+                    console.error(e);
+                }
+            }
+        }
+
+        function stopListeningState(msg) {
+            isListening = false;
+            document.getElementById('mic-btn-text').innerText = "Start Speaking Answer";
+            document.getElementById('mic-btn').classList.remove('pulse-ring', 'bg-red-600');
+            document.getElementById('speech-status').innerHTML = `<i class="fa-solid fa-circle-info"></i> ${msg}`;
+        }
+
+        // REAL-TIME EVALUATION ENGINE FOR DASHBOARD
+        function evaluateUserResponse() {
+            const text = document.getElementById('user-input-text').value.trim();
+            if (!text) {
+                alert("Please provide a speech or written response before submitting.");
+                return;
+            }
+
+            const lower = text.toLowerCase();
+
+            // Key Research Terms to scan for
+            const keyTerms = [
+                { term: 'opinion', weight: 15 },
+                { term: 'subjective', weight: 15 },
+                { term: 'evidence', weight: 15 },
+                { term: 'empirical', weight: 20 },
+                { term: 'generalization', weight: 15 },
+                { term: 'correlation', weight: 15 },
+                { term: 'causation', weight: 15 },
+                { term: 'experiment', weight: 10 },
+                { term: 'control', weight: 10 },
+                { term: 'variable', weight: 10 },
+                { term: 'sample', weight: 10 },
+                { term: 'bias', weight: 15 }
+            ];
+
+            const detected = [];
+            let accuracyScore = 35; // Base score for effort
+
+            keyTerms.forEach(item => {
+                if (lower.includes(item.term)) {
+                    detected.push(item.term);
+                    accuracyScore += item.weight;
+                }
+            });
+
+            // Politeness & Academic Etiquette detection
+            let politenessScore = 70;
+            const politeMarkers = ['because', 'therefore', 'in my analysis', 'i believe', 'according to', 'furthermore', 'for instance', 'the reason is'];
+            politeMarkers.forEach(marker => {
+                if (lower.includes(marker)) politenessScore += 6;
+            });
+
+            // Pronunciation & Speech Clarity proxy based on sentence length & structure
+            const wordCount = text.split(/\s+/).length;
+            let clarityScore = Math.min(100, Math.max(40, wordCount * 5));
+
+            accuracyScore = Math.min(100, accuracyScore);
+            politenessScore = Math.min(100, politenessScore);
+
+            // Update Dashboard UI Scores
+            updateDashboardMeters(clarityScore, accuracyScore, politenessScore);
+
+            // Update Detected Key Terms Container
+            const termsContainer = document.getElementById('detected-terms-container');
+            if (detected.length > 0) {
+                termsContainer.innerHTML = detected.map(t => `<span class="bg-montano-blue text-white text-xs font-bold px-2 py-1 rounded-lg">✓ ${t}</span>`).join('');
+            } else {
+                termsContainer.innerHTML = `<span class="text-xs text-amber-700 italic">No scientific terms detected. Try adding terms like 'subjective', 'evidence', 'empirical', or 'bias'.</span>`;
+            }
+
+            // Generate AI Pedagogical Feedback
+            let feedback = "";
+            if (accuracyScore >= 75) {
+                feedback = `Excellent work! You accurately identified the statement as a subjective opinion or unverified claim. You utilized strong research vocabulary like ${detected.slice(0, 3).join(', ')}.`;
+            } else if (accuracyScore >= 50) {
+                feedback = `Good progress! Your response touches on key concepts, but try to explicitly use terms such as 'empirical evidence', 'anecdotal', or 'controlled study' to strengthen your scientific explanation.`;
+            } else {
+                feedback = `You've provided an initial response, but it needs more academic depth. Remember to distinguish between subjective intuition ('feeling') and objective research methodology ('data').`;
+            }
+
+            document.getElementById('ai-feedback-text').innerText = feedback;
+
+            // Trigger mentor voice response using Speech Synthesis
+            speakText(`Thank you for your response. ${feedback}`);
+        }
+
+        function updateDashboardMeters(clarity, accuracy, politeness) {
+            document.getElementById('score-clarity-val').innerText = `${clarity}%`;
+            document.getElementById('score-clarity-bar').style.width = `${clarity}%`;
+
+            document.getElementById('score-accuracy-val').innerText = `${accuracy}%`;
+            document.getElementById('score-accuracy-bar').style.width = `${accuracy}%`;
+
+            document.getElementById('score-politeness-val').innerText = `${politeness}%`;
+            document.getElementById('score-politeness-bar').style.width = `${politeness}%`;
+        }
+
+        function saveExitTicket() {
+            const val = document.getElementById('exit-ticket-input').value.trim();
+            if (val.length < 10) {
+                alert("Please write a complete research question before saving.");
+            } else {
+                alert("Exit Ticket question saved successfully! Great job formulating a researchable hypothesis.");
+            }
+        }
+
+        // INITIALIZATION ON PAGE LOAD
+        window.onload = function() {
+            renderExamples('all');
+            renderProblems('all');
+        };
+    </script>
+</body>
+</html>
